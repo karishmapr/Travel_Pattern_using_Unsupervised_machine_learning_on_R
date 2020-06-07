@@ -1,0 +1,132 @@
+---
+title: "travel_pattern_association_rule"
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
+author: "Karishma Prasad"
+date: "07/06/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+#--------------------- 1.Setting up Directory---------------------------------
+
+# Set the Working Directory
+setwd("D:/Github_repository/travel_pattern_unsupervised_machine_learning")
+```
+
+
+```{r}
+#----------------------2. Importing Data---------------------------
+library("readxl")            # Load Library 'readxl'
+Travel_Pattern_Data <- read_excel("Travel_Pattern_R.xlsx")
+```
+
+
+```{r}
+#---------------------- 3. Exploring Data---------------------------
+
+names(Travel_Pattern_Data)
+head(Travel_Pattern_Data)
+tail(Travel_Pattern_Data)
+str(Travel_Pattern_Data)
+summary(Travel_Pattern_Data)
+Travel_Pattern_Data <- Travel_Pattern_Data [,-1]  # Dropping Irrelevant variable
+head(Travel_Pattern_Data)
+```
+
+
+```{r}
+#------------------------4. Creating Frequency barplots for variables---------------
+
+# a. Calculating Frequency of the variables
+
+#Destination 
+len <- ncol(Travel_Pattern_Data)                # Calculating number of columns 
+Travel_Dest <- Travel_Pattern_Data[,32:len]     # Subset of the data for Destination
+freq_dest <- colSums(Travel_Dest == "TRUE")     # Calculating Frequency of each destination
+freq_dest <- sort(freq_dest, decreasing = TRUE) # Sorting in decreasong order
+names(Travel_Dest)
+
+
+#Profession 
+Travel_Prof <- Travel_Pattern_Data[,1:26]       # Subset of the data for Profession
+freq_Prof <- colSums(Travel_Prof == "TRUE")     # calculating Frequency of each destination
+freq_Prof <- sort(freq_Prof, decreasing = TRUE) # Sorting values in decreasing order
+
+
+#Visa
+Travel_Visa <- Travel_Pattern_Data[,27:31]      # Subset of the data for Visa Type
+freq_visa <- colSums(Travel_Visa == "TRUE")     # Calculating Frequency of each Visa Type
+freq_visa <- sort(freq_visa, decreasing = TRUE) # Sorting values in decreasing order
+names(Travel_Visa)
+```
+
+
+```{r}
+# b. Ploting Frequency Bar graphs 
+
+barplot(freq_dest[c(1:10)],legend=rownames(TRUE), # Frequency Barplot for Destination
+        xlab = 'Destination',
+        ylab = 'Frequency', 
+        cex.names = 0.9)     #Plot 1
+
+
+```
+
+
+```{r}
+barplot(freq_Prof[c(1:10)],legend=rownames(TRUE), # Frequency Barplot for Profession
+        xlab = 'Profession',
+        ylab = 'Frequency',
+        cex.names = 0.9)    #Plot 2
+
+```
+```{r}
+
+barplot(freq_visa ,legend=rownames(TRUE),         # Frequency Barplot for Visa Type
+        xlab = 'Visa Type',
+        ylab = 'Frequency') #Plot 3
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+#---------------------- 5. Association Rule Mining Technique: APRIORI-------------
+
+library(arules)              # activate "arules" package
+
+rules <- apriori(Travel_Pattern_Data, 
+                 parameter = list(support = 0.05,      # Support = 5%
+                                  confidence = 0.8))   # Confidence = 80%
+
+#rules<- sort(rules, by="support", decreasing=TRUE)     # Sorting rules by Support               
+
+#summary (rules)              # summary of the rules 
+inspect(rules)               # Inspecting Rules
+```
+```{r}
+#------------------------ 6. Visualising and Plotting Graphs -------------
+#install.packages("arulesViz") # install "arulesViz" 
+library(arulesViz)            # activate "arules" package
+#plot (rules)
+plot(rules, method="grouped")
+#plot (rules@quality)
+```
+
+
+```{r}
+#plot(rules, method = "paracoord")
+plot(rules, method = "graph")
+```
