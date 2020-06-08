@@ -7,8 +7,8 @@ The current study presents the association between the most chosen destination a
 The R markdown report is found on <a href = https://karishmapr.github.io/travel_pattern_unsupervised_machine_learning/ > association rule mining </a>
 
 
-#### <a href = https://github.com/karishmapr/travel_pattern_unsupervised_machine_learning/blob/master/Travel_Pattern_R.xlsx> Data Used </a>
-The raw data has been obtained from a research paper 'Association Rule Mining in Discovering Travel Pattern in Passport Data Analysis' by Rani et al from International Journal of Computer Science and Information Technology. Before proceeding with Association Rule Mining (using APRIORI Algorithm) in R, the obtained data is converted into ‘transaction data’ where all the entries of each variable are converted into a single row (or multiple columns). 
+####  Data Used 
+The <a href = https://github.com/karishmapr/travel_pattern_unsupervised_machine_learning/blob/master/Travel_Pattern_R.xlsx> raw data </a> has been obtained from a research paper 'Association Rule Mining in Discovering Travel Pattern in Passport Data Analysis' by Rani et al from International Journal of Computer Science and Information Technology. Before proceeding with Association Rule Mining (using APRIORI Algorithm) in R, the obtained data is converted into ‘transaction data’ where all the entries of each variable are converted into a single row (or multiple columns). 
 
 #### Tools used
 R is used for the current exercise. 
