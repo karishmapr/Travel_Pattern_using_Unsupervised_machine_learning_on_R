@@ -1,4 +1,4 @@
-# travel_pattern_unsupervised_machine_learning
+# Travel Pattern using Unsupervised Machine Learning (R)
 ## Association Rule Mining (Apriori)
 
 #### Summary
